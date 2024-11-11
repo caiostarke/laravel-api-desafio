@@ -77,3 +77,19 @@ npm install
 npm run dev
 ```
 
+# Proximos Passos
+
+- Va para o http://localhost:8000/ voce sera redirecionado para pagina de login/cadastro, se cadastre e volte para http://localhost:8000/.
+
+- Clique no botao.
+
+- Caso voce tenha conseguido configurar o redirectURI para o localhost:8000/redirect voce ja estara auteticado e pronto para seguir para http://localhost:8000/product/create
+
+- Caso nao tenha conseguido configurar corretamente o redirectURI, copie o code que voce recebeu na pagina de redirecionamento.
+
+![Step 1](step-1.jpg)
+
+ - Cole o codigo copiado nesse link http://localhost:8000/redirect?code={code} e voce ja estara auteticado e pronto para seguir para http://localhost:8000/product/create.
+
+
+
