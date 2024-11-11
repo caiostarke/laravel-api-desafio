@@ -44,6 +44,8 @@ MYSQL_ROOT_PASSWORD=
 ```
 MERCADO_LIVRE_CLIENT_ID=
 MERCADO_LIVRE_CLIENT_SECRET=
+
+# coloque exatamente como voce colocou na criacao da sua aplicacao caso contrario nao funcionara
 MERCADO_LIVRE_REDIRECT_URI=
 ```
 
