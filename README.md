@@ -2,19 +2,19 @@
 
 # Passos para rodar o projeto
 
-- ```bash
+```bash
     git clone https://github.com/caiostarke/laravel-api-desafio.git
 ```
 
-- ```bash
+```bash
     cd laravel-api-desafio
 ```
 
-- ```bash
+```bash
     composer install
 ```
 
-- ```bash    
+```bash    
     cp .env.example .env
 ```
 
@@ -45,11 +45,11 @@ MERCADO_LIVRE_CLIENT_SECRET=
 MERCADO_LIVRE_REDIRECT_URI=
 ```
 
-- ```bash
+```bash
     php artisan key:generate
 ```
 
-- ```bash
+```bash
     docker compose up -d
 
     or
@@ -57,19 +57,19 @@ MERCADO_LIVRE_REDIRECT_URI=
     docker-compose up -d
 ```
 
-- ```bash
+```bash
     php artisan migrate
 ```
 
-- ```bash
+```bash
     php artisan serve
 ```
 
-- ```bash
+```bash
     npm install
 ```
 
-- ```bash
+```bash
     npm run dev
 ```
 
