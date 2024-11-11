@@ -79,7 +79,7 @@ npm run dev
 
 # Proximos Passos
 
-- Va para o http://localhost:8000/ voce sera redirecionado para pagina de login/cadastro, se cadastre e volte para http://localhost:8000/.
+- Va para o http://localhost:8000/register, se cadastre e va para http://localhost:8000/.
 
 - Clique no botao.
 
