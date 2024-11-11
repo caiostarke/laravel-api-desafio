@@ -37,7 +37,7 @@ MYSQL_ROOT_PASSWORD=
 ```
 
 
-- Configure as seguintes variaveis com as chaves que voce ganha quando cria uma aplicacao para ter acesso a API do mercado livre
+- Configure as seguintes variaveis de ambiente no seu arquivo *.env* com as chaves que voce ganha quando cria uma aplicacao para ter acesso a API do mercado livre
 
 ```
 MERCADO_LIVRE_CLIENT_ID=
