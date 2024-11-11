@@ -39,6 +39,8 @@ MYSQL_ROOT_PASSWORD=
 
 - Configure as seguintes variaveis de ambiente no seu arquivo *.env* com as chaves que voce ganha quando cria uma aplicacao para ter acesso a API do mercado livre
 
+- Caso voce consiga configurar na sua aplicacao do mercado livre developers a redirectURI com o valor "https://localhost:8000/redirect" a aplicacao funcionara corretamente (Infelizmente isso aparentemente tem funcionado mais, eu usei o redirectURI com o valor https://google.com.br e pego o codigo gerado manualmente).
+
 ```
 MERCADO_LIVRE_CLIENT_ID=
 MERCADO_LIVRE_CLIENT_SECRET=
