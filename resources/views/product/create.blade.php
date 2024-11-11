@@ -18,28 +18,16 @@
                 <h2 class="mb-6 text-2xl font-semibold text-gray-800">Cadastrar Produto</h2>
 
 
-                @if(session('error'))
-                    @if (is_array(session('error')))
 
-                    <ul class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
-                        @foreach (session('error') as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    
-                    @elseif (is_string(session('error')))
+                @if (session('api_error'))
+                <div class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
 
-                        <div class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
-                            <p>{{ session('error') }}</p>
-                        </div
-
-                    @endif
-
+                    {{ print_r(session('api_error'), true)}}                          
+                </div>
+ 
                 @endif
 
                 
-
-
                 @if(session('success'))
                     <div class="p-3 my-5 text-white bg-green-400 rounded-sm alert alert-danger alert-success">
                         {{ session('success') }}
@@ -112,7 +100,7 @@
                     .then(response => response.json())
                     .then(data => {
                         let attributesDiv = document.getElementById('attributes');
-                        attributesDiv.innerHTML = ''; // Clear previous attributes
+                        attributesDiv.innerHTML = ''; 
 
                         data.forEach(attribute => {
                             let label = document.createElement('label');

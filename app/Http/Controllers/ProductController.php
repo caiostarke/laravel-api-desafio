@@ -92,8 +92,10 @@ class ProductController extends Controller
             ]);
 
         } else {
-            return redirect()->route('product.create')->withErrors([
-                'error' => $response->json()
+            $errorMessages = $response->json();
+
+            return redirect()->route('product.create')->with([
+                'api_error' => $errorMessages
             ]);
         }
       
