@@ -24,7 +24,7 @@ cp .env.example .env
 - Docker 
 - Docker Compose
 
-Configure essas variaveis de ambiente para que nao haja problemas na hora de rodar o mysql no docker
+Configure essas variaveis de ambiente para que nao haja problemas na hora de rodar o mysql no docker (Ja deixei o valor padrao no .env.example caso nao queira mudar)
 
 ```.env
 DB_CONNECTION=mysql
