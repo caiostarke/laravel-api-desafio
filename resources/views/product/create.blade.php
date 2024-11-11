@@ -19,10 +19,22 @@
 
 
                 @if(session('error'))
-                    <div class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
-                    <p>{{ session('error') }}</p>
+                    @if (is_array(session('error')))
 
-                    </div>
+                    <ul class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
+                        @foreach (session('error') as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    
+                    @elseif (is_string(session('error')))
+
+                        <div class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
+                            <p>{{ session('error') }}</p>
+                        </div
+
+                    @endif
+
                 @endif
 
 
