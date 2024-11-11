@@ -37,6 +37,8 @@
 
                 @endif
 
+                
+
 
                 @if(session('success'))
                     <div class="p-3 my-5 text-white bg-green-400 rounded-sm alert alert-danger alert-success">

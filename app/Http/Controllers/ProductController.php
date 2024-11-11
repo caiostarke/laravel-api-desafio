@@ -35,7 +35,6 @@ class ProductController extends Controller
             'image' => 'required'
         ]);
 
-
         $attributesValues = array_filter($request['attributes'], function($value) {
             return !empty($value);
         });
@@ -62,6 +61,13 @@ class ProductController extends Controller
 
 
         $accessToken = $mercadoLivreService->getAccessToken(auth()->user());
+
+        if (!$accessToken) {
+            return redirect()->route('product.create')->withErrors([
+                'error' => 'Access token not found'
+            ]);
+        }
+
         $response = $mercadoLivreService->createProduct($accessToken, $productData);
 
         if ($response->status() === 201) {
@@ -86,7 +92,7 @@ class ProductController extends Controller
             ]);
 
         } else {
-            return redirect()->route('product.create')->with([
+            return redirect()->route('product.create')->withErrors([
                 'error' => $response->json()
             ]);
         }

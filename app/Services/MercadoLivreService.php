@@ -13,9 +13,14 @@ class MercadoLivreService {
         $accessToken = Session::get('mercadolivre_access_token');
 
         if (!$accessToken) {
-            $this->refreshAcessToken($user);
+            if ($user->access_token) {
+                $this->refreshAcessToken($user);
+                
+                $accessToken = Session::get('mercadolivre_access_token');
+            } else {
+                return null;
+            }
 
-            $accessToken = Session::get('mercadolivre_access_token');
         }
 
         return $accessToken;
@@ -78,7 +83,7 @@ class MercadoLivreService {
     }
 
     public function createProduct($accessToken, $data) {
-        
+
         return  Http::withHeaders([
             'Authorization' => 'Bearer ' . $accessToken,
         ])->post('https://api.mercadolibre.com/items', $data);
