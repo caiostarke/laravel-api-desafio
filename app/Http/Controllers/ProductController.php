@@ -9,47 +9,23 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use App\Services\MercadoLivreService;
 
-
-
 class ProductController extends Controller
 {
-    public function create(MercadoLivreService $mercadoLivreService) {
-            $accessToken = Session::get('mercadolivre_access_token'); 
-    
-            $response = Http::withHeaders([
-                'Authorization' => 'Bearer ' . $accessToken
-            ])->get('https://api.mercadolibre.com/sites/MLB/categories/all');
+    public function create(MercadoLivreService $mercadoLivreService) {    
+        try {
+            $accessToken = $mercadoLivreService->getAccessToken(auth()->user());
+
+            $categories = $mercadoLivreService->fetchCategories($accessToken);
+
+            return view('product.create', compact('categories'));
             
-            if ($response->successful()) {
-                $categories = $response->json();
-            } else if ($response->status() == 401 ) {
-                try{
-                    $mercadoLivreService->refreshAcessToken(auth()->user());
-
-                    $response = Http::withHeaders([
-                        'Authorization' => 'Bearer ' . $accessToken
-                    ])->get('https://api.mercadolibre.com/sites/MLB/categories/all');
-
-                    if ($response->successful()) {
-                        $categories = $response->json();
-                    } else {
-                        $categories = [];
-                        Log::error("Failed to fetch categories from Mercado Livre", ['response' => $response->body()]);
-                    }
-        
-                } catch (\Exception $e) {
-                    return redirect()->route('product.create')->with([
-                        'error' => 'Failed to refresh access token'
-                    ]);
-                };
-            }
-    
-        return view('product.create', compact('categories'));
+        } catch (\Exception $e) {
+            Log::error("Error fetching categories: " . $e->getMessage());
+            return redirect()->route('product.create')->with(['error' => 'Failed to fetch categories']);
+        }
     }
 
     public function store(Request $request, MercadoLivreService $mercadoLivreService) {
-        $accessToken = Session::get('mercadolivre_access_token');         
-
         $validated = $request->validate([
             'name' => 'required|max:255',
             'description' => 'required|max:1000',
@@ -84,13 +60,12 @@ class ProductController extends Controller
             
         ];
 
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $accessToken
-        ])->post('https://api.mercadolibre.com/items', $productData);
 
+        $accessToken = $mercadoLivreService->getAccessToken(auth()->user());
+        $response = $mercadoLivreService->createProduct($accessToken, $productData);
 
         if ($response->status() === 201) {
-            $product = $response->json();
+            $product    = $response->json();
 
             Product::create([
                 'name' => $product['title'],
@@ -110,44 +85,27 @@ class ProductController extends Controller
                 'productStatus' => $product['status']
             ]);
 
-            } else if ($response->status() == 401 ) {
-                try{
-                    $mercadoLivreService->refreshAcessToken(auth()->user());
-                    
-                    $response = Http::withHeaders([
-                        'Authorization' => 'Bearer ' . $accessToken
-                    ])->get('https://api.mercadolibre.com/sites/MLB/categories/all');
-
-                    if ($response->successful()) {
-                        $categories = $response->json();
-                    } else {
-                        $categories = [];
-                        Log::error("Failed to fetch categories from Mercado Livre", ['response' => $response->body()]);
-                    }
-        
-                } catch (\Exception $e) {
-                    return redirect()->route('product.create')->with([
-                        'error' => 'Failed to refresh access token'
-                    ]);
-                };
-            } else {
-                return redirect()->route('product.create')->with([
-                    'error' => $response->json()
-                ]);
-            }
-    }
-
-    public function getCategoryAttributes($categoryID) {
-        $accessToken = Session::get('mercadolivre_access_token');
-
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer ' . $accessToken,
-        ])->get("https://api.mercadolibre.com/categories/{$categoryID}/attributes");
-
-        if ($response->successful()) {
-            return response()->json($response->json());
         } else {
-            return response()->json(['error' => 'Could not fetch attributes'], 400);
+            return redirect()->route('product.create')->with([
+                'error' => $response->json()
+            ]);
         }
+      
     }
+
+    public function getCategoryAttributes($categoryID, MercadoLivreService $mercadoLivreService) {
+
+        try {
+            $accessToken = $mercadoLivreService->getAccessToken(auth()->user());
+            $categoryAttributes = $mercadoLivreService->getCategoryAttributes($categoryID, $accessToken);
+
+            return response()->json($categoryAttributes);
+
+        } catch (\Exception $e) {
+            Log::error("Error fetching category attributes: " . $e->getMessage());
+            return response()->json(['error' => 'Failed to fetch category attributes'], 400);
+        } 
+        
+    }
+        
 }

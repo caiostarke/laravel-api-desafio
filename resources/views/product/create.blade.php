@@ -20,12 +20,8 @@
 
                 @if(session('error'))
                     <div class="p-3 my-5 text-white bg-red-400 rounded-sm alert alert-danger">
-                    <p>{{ session('error')['message'] }}</p>
-                        <ul>
-                            @foreach(session('error')['cause'] as $cause)
-                                <li>{{ $cause['message'] }}</li>
-                            @endforeach
-                        </ul>
+                    <p>{{ session('error') }}</p>
+
                     </div>
                 @endif
 
